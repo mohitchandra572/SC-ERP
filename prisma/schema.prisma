@@ -1,0 +1,685 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String                 @id @default(uuid())
+  email               String                 @unique
+  passwordHash        String
+  fullName            String
+  isActive            Boolean                @default(true)
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @default(now()) @updatedAt
+  submissions         AssignmentSubmission[]
+  managedAssignments  Assignment[]
+  recordedAttendances Attendance[]           @relation("RecordedAttendance")
+  attendances         Attendance[]           @relation("StudentAttendance")
+  executedPromotions  PromotionHistory[]     @relation("ExecutorPromotion")
+  promotions          PromotionHistory[]     @relation("StudentPromotion")
+  results             Result[]
+  collectedReceipts   FeeReceipt[]           @relation("CollectorReceipt")
+  feeReceipts         FeeReceipt[]           @relation("StudentReceipt")
+  studentFees         StudentFee[]
+  auditLogs           AuditLog[]
+  reportPresets       ReportPreset[]
+  uploadedDocuments   Document[]             @relation("UploadedDocuments")
+  documentAccessLogs  DocumentAccessLog[]
+  notifications       Notification[]
+  payrollRuns         PayrollRun[]           @relation("PayrollProcessor")
+  profile             UserProfile?
+  roles               UserRole[]
+  staffProfile        StaffProfile?
+
+  @@map("users")
+}
+
+model UserProfile {
+  id       String  @id @default(uuid())
+  userId   String  @unique
+  language String  @default("bn")
+  phone    String?
+  classId  String?
+  rollNo   String?
+  class    Class?  @relation(fields: [classId], references: [id])
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model Role {
+  id                String             @id @default(uuid())
+  name              String             @unique
+  displayName       String
+  description       String?
+  isSystem          Boolean            @default(false)
+  rolePermissions   RolePermission[]
+  dashboardLayouts  DashboardLayout?
+  roleMenuOverrides RoleMenuOverride[]
+  userRoles         UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id              String           @id @default(uuid())
+  slug            String           @unique
+  description     String
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserRole {
+  userId String
+  roleId String
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model SchoolSettings {
+  id             String   @id @default(uuid())
+  schoolNameBn   String
+  schoolNameEn   String
+  logoUrl        String?
+  primaryColor   String   @default("#000000")
+  secondaryColor String?
+  eiin           String?
+  addressBn      String
+  addressEn      String
+  phone          String
+  email          String
+  footerTextBn   String
+  footerTextEn   String
+  updatedAt      DateTime @default(now()) @updatedAt
+
+  @@map("school_settings")
+}
+
+model StoragePolicy {
+  id              String       @id @default(uuid())
+  docType         DocumentType @unique
+  storageProvider String       // cloudinary | private
+  updatedAt       DateTime     @updatedAt
+
+  @@map("institutional_storage_policies")
+}
+
+model MenuItem {
+  id                 String             @id @default(uuid())
+  key                String             @unique
+  labelKey           String
+  route              String
+  iconKey            String
+  permissionRequired String?
+  order              Int                @default(0)
+  parentId           String?
+  parent             MenuItem?          @relation("MenuHierarchy", fields: [parentId], references: [id])
+  children           MenuItem[]         @relation("MenuHierarchy")
+  roleOverrides      RoleMenuOverride[]
+
+  @@map("ui_menu_items")
+}
+
+model RoleMenuOverride {
+  id         String   @id @default(uuid())
+  roleId     String
+  menuItemId String
+  isVisible  Boolean  @default(true)
+  order      Int?
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  role       Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, menuItemId])
+  @@map("ui_role_menu_overrides")
+}
+
+model DashboardLayout {
+  id     String @id @default(uuid())
+  roleId String @unique
+  layout Json
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@map("ui_dashboard_layouts")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  action     String
+  resource   String
+  details    Json
+  metadata   Json?
+  accessType String   @default("MUTATION")
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+  @@map("audit_logs")
+}
+
+enum ConfigStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model ConfigSnapshot {
+  id          String       @id @default(uuid())
+  key         String
+  data        Json
+  version     Int
+  status      ConfigStatus @default(DRAFT)
+  description String?
+  createdBy   String
+  publishedBy String?
+  publishedAt DateTime?
+  createdAt   DateTime     @default(now())
+
+  @@map("system_config_snapshots")
+}
+
+model ReportPreset {
+  id         String   @id @default(uuid())
+  name       String
+  reportType String
+  config     Json
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@map("ui_report_presets")
+}
+
+model Class {
+  id             String             @id @default(uuid())
+  name           String
+  code           String             @unique
+  assignments    Assignment[]
+  attendances    Attendance[]
+  exams          Exam[]
+  fromPromotions PromotionHistory[] @relation("FromClass")
+  toPromotions   PromotionHistory[] @relation("ToClass")
+  students       UserProfile[]
+
+  @@map("academic_classes")
+}
+
+model Subject {
+  id          String       @id @default(uuid())
+  name        String
+  code        String       @unique
+  assignments Assignment[]
+  exams       Exam[]
+
+  @@map("academic_subjects")
+}
+
+model Attendance {
+  id           String           @id @default(uuid())
+  studentId    String
+  classId      String
+  date         DateTime         @db.Date
+  status       AttendanceStatus
+  recordedById String
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  class        Class            @relation(fields: [classId], references: [id], onDelete: Cascade)
+  recordedBy   User             @relation("RecordedAttendance", fields: [recordedById], references: [id])
+  student      User             @relation("StudentAttendance", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, classId, date])
+  @@index([studentId, date])
+  @@index([classId, date])
+  @@map("academic_attendances")
+}
+
+model Assignment {
+  id          String                 @id @default(uuid())
+  title       String
+  description String?
+  classId     String
+  subjectId   String
+  teacherId   String
+  dueDate     DateTime
+  maxMarks    Int
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+  submissions AssignmentSubmission[]
+  class       Class                  @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subject     Subject                @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  teacher     User                   @relation(fields: [teacherId], references: [id])
+
+  @@map("academic_assignments")
+}
+
+model AssignmentSubmission {
+  id           String           @id @default(uuid())
+  assignmentId String
+  studentId    String
+  contentUrl   String?
+  marks        Float?
+  feedback     String?
+  status       SubmissionStatus @default(SUBMITTED)
+  submittedAt  DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  assignment   Assignment       @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student      User             @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([assignmentId, studentId])
+  @@map("academic_assignment_submissions")
+}
+
+model Exam {
+  id           String   @id @default(uuid())
+  title        String
+  term         String
+  academicYear String
+  classId      String
+  subjectId    String
+  maxMarks     Int
+  date         DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  class        Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subject      Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  results      Result[]
+
+  @@index([classId, academicYear])
+  @@index([subjectId])
+  @@map("academic_exams")
+}
+
+model Result {
+  id            String   @id @default(uuid())
+  examId        String
+  studentId     String
+  marksObtained Float
+  grade         String?
+  published     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  exam          Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student       User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([examId, studentId])
+  @@index([studentId])
+  @@index([published])
+  @@map("academic_results")
+}
+
+model PromotionHistory {
+  id           String   @id @default(uuid())
+  studentId    String
+  fromClassId  String
+  toClassId    String
+  academicYear String
+  promotedById String
+  createdAt    DateTime @default(now())
+  fromClass    Class    @relation("FromClass", fields: [fromClassId], references: [id])
+  promotedBy   User     @relation("ExecutorPromotion", fields: [promotedById], references: [id])
+  student      User     @relation("StudentPromotion", fields: [studentId], references: [id], onDelete: Cascade)
+  toClass      Class    @relation("ToClass", fields: [toClassId], references: [id])
+
+  @@index([studentId, academicYear])
+  @@map("academic_promotions")
+}
+
+model Document {
+  id              String       @id @default(uuid())
+  title           String
+  docType         DocumentType @default(OTHER)
+  ownerType       String       // student | staff | system
+  ownerId         String
+  storageProvider String       @default("private") // cloudinary | private
+  storageKey      String       // The unique key/path in the storage system
+  publicUrl       String?      // Nullable for private documents
+  uploadedById    String
+  uploadedBy      User         @relation("UploadedDocuments", fields: [uploadedById], references: [id])
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  accessLogs      DocumentAccessLog[]
+
+  @@index([ownerId, ownerType])
+  @@index([storageProvider])
+  @@map("institutional_documents")
+}
+
+model DocumentAccessLog {
+  id         String   @id @default(uuid())
+  documentId String
+  userId     String
+  action     String   // view | download | delete
+  timestamp  DateTime @default(now())
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([documentId])
+  @@index([userId])
+  @@map("institutional_document_access_logs")
+}
+
+model FeeHead {
+  id          String       @id @default(uuid())
+  name        String
+  amount      Float
+  category    FeeCategory  @default(ACADEMIC)
+  isOptional  Boolean      @default(false)
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  studentFees StudentFee[]
+
+  @@map("accounting_fee_heads")
+}
+
+model StudentFee {
+  id         String    @id @default(uuid())
+  studentId  String
+  feeHeadId  String
+  dueDate    DateTime  @db.Date
+  status     FeeStatus @default(UNPAID)
+  amount     Float
+  discount   Float     @default(0)
+  paidAmount Float     @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  feeHead    FeeHead   @relation(fields: [feeHeadId], references: [id])
+  student    User      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId, status])
+  @@index([dueDate])
+  @@map("accounting_student_fees")
+}
+
+model FeeReceipt {
+  id            String        @id @default(uuid())
+  studentId     String
+  amount        Float
+  paymentMethod PaymentMethod @default(CASH)
+  transactionId String?
+  collectedById String
+  createdAt     DateTime      @default(now())
+  collectedBy   User          @relation("CollectorReceipt", fields: [collectedById], references: [id])
+  student       User          @relation("StudentReceipt", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId, createdAt])
+  @@index([collectedById])
+  @@map("accounting_fee_receipts")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  title     String
+  content   String
+  type      NotificationType @default(SYSTEM)
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("system_notifications")
+}
+
+model SmsOutbox {
+  id               String    @id @default(uuid())
+  phoneNumber      String
+  content          String
+  status           SmsStatus @default(PENDING)
+  provider         String?
+  providerResponse String?
+  retryCount       Int       @default(0)
+  lastError        String?
+  nextRetryAt      DateTime?
+  scheduledAt      DateTime?
+  sentAt           DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@index([status, scheduledAt, nextRetryAt])
+  @@map("system_sms_outbox")
+}
+
+model StaffProfile {
+  id                String            @id @default(uuid())
+  userId            String            @unique
+  departmentId      String?
+  designationId     String?
+  salaryStructureId String?
+  salaryGradeId     String?
+  joiningDate       DateTime          @db.Date
+  status            StaffStatus       @default(ACTIVE)
+  
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  department        StaffDepartment?  @relation(fields: [departmentId], references: [id])
+  designation       StaffDesignation? @relation(fields: [designationId], references: [id])
+  salaryStructure   SalaryStructure?  @relation(fields: [salaryStructureId], references: [id])
+  salaryGrade       SalaryGrade?      @relation(fields: [salaryGradeId], references: [id])
+  
+  payrollRecords    PayrollRecord[]
+  payslips          Payslip[]
+
+  @@map("hr_staff_profiles")
+}
+
+model StaffDepartment {
+  id          String         @id @default(uuid())
+  name        String         @unique
+  description String?
+  staff       StaffProfile[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@map("hr_departments")
+}
+
+model StaffDesignation {
+  id          String         @id @default(uuid())
+  name        String         @unique
+  level       Int            @default(1)
+  staff       StaffProfile[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@map("hr_designations")
+}
+
+model SalaryGrade {
+  id            String         @id @default(uuid())
+  name          String         @unique
+  baseSalary    Float
+  housing       Float          @default(0)
+  medical       Float          @default(0)
+  transport     Float          @default(0)
+  otherAllow    Float          @default(0)
+  staffProfiles StaffProfile[]
+
+  @@map("hr_salary_grades")
+}
+
+model PayrollRecord {
+  id             String        @id @default(uuid())
+  staffProfileId String
+  month          Int
+  year           Int
+  basePaid       Float
+  allowancePaid  Float
+  deduction      Float         @default(0)
+  netPaid        Float
+  paymentDate    DateTime?     @db.Date
+  status         PayrollStatus @default(PENDING)
+  staffProfile   StaffProfile  @relation(fields: [staffProfileId], references: [id])
+
+  @@unique([staffProfileId, month, year])
+  @@map("hr_payroll_records")
+}
+
+enum SalaryComponentType {
+  EARNING
+  DEDUCTION
+}
+
+model SalaryComponent {
+  id          String                 @id @default(uuid())
+  name        String                 @unique
+  type        SalaryComponentType
+  isFixed     Boolean                @default(true)
+  description String?
+  structures  SalaryStructureComponent[]
+  payslipItems PayslipComponent[]
+
+  @@map("hr_salary_components")
+}
+
+model SalaryStructure {
+  id          String                     @id @default(uuid())
+  name        String                     @unique
+  description String?
+  components  SalaryStructureComponent[]
+  profiles    StaffProfile[]
+
+  @@map("hr_salary_structures")
+}
+
+model SalaryStructureComponent {
+  id                String          @id @default(uuid())
+  structureId       String
+  componentId       String
+  amount            Float           
+  structure         SalaryStructure @relation(fields: [structureId], references: [id], onDelete: Cascade)
+  component         SalaryComponent @relation(fields: [componentId], references: [id])
+
+  @@unique([structureId, componentId])
+  @@map("hr_salary_structure_components")
+}
+
+model PayrollRun {
+  id              String        @id @default(uuid())
+  month           Int
+  year            Int
+  status          PayrollStatus @default(PENDING)
+  totalGross      Float         @default(0)
+  totalDeductions Float         @default(0)
+  totalNet        Float         @default(0)
+  processedById   String
+  processedBy     User          @relation("PayrollProcessor", fields: [processedById], references: [id])
+  payslips        Payslip[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@unique([month, year])
+  @@map("hr_payroll_runs")
+}
+
+model Payslip {
+  id             String             @id @default(uuid())
+  payrollRunId   String
+  staffProfileId String
+  grossAmount    Float
+  netAmount      Float
+  status         PayrollStatus      @default(PENDING)
+  paymentDate    DateTime?
+  payrollRun     PayrollRun         @relation(fields: [payrollRunId], references: [id], onDelete: Cascade)
+  staffProfile   StaffProfile       @relation(fields: [staffProfileId], references: [id])
+  components     PayslipComponent[]
+
+  @@unique([payrollRunId, staffProfileId])
+  @@map("hr_payslips")
+}
+
+model PayslipComponent {
+  id          String          @id @default(uuid())
+  payslipId   String
+  componentId String
+  name        String          
+  amount      Float
+  type        SalaryComponentType
+  payslip     Payslip         @relation(fields: [payslipId], references: [id], onDelete: Cascade)
+  component   SalaryComponent @relation(fields: [componentId], references: [id])
+
+  @@map("hr_payslip_components")
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  GRADED
+  LATE
+}
+
+enum DocumentType {
+  SYLLABUS
+  NOTICE
+  CERTIFICATE
+  OTHER
+}
+
+enum FeeCategory {
+  ACADEMIC
+  ADMISSION
+  OTHER
+}
+
+enum FeeStatus {
+  UNPAID
+  PAID
+  PARTIAL
+  WAIVED
+}
+
+enum PaymentMethod {
+  CASH
+  BKASH
+  BANK
+  OTHER
+}
+
+enum NotificationType {
+  SYSTEM
+  ATTENDANCE
+  FEE
+  EXAM
+}
+
+enum SmsStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum StaffStatus {
+  ACTIVE
+  INACTIVE
+  RESIGNED
+  TERMINATED
+}
+
+enum PayrollStatus {
+  PENDING
+  PROCESSING
+  PAID
+  CANCELLED
+}

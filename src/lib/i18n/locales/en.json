@@ -1,0 +1,294 @@
+{
+    "common": {
+        "login": "Login",
+        "logout": "Logout",
+        "dashboard": "Dashboard",
+        "submit": "Submit",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "add": "Add",
+        "search": "Search",
+        "loading": "Loading...",
+        "error": "Error occurred",
+        "tryAgain": "Try again",
+        "goBack": "Go back",
+        "actions": "Actions",
+        "saving": "Saving..."
+    },
+    "nav": {
+        "home": "Home",
+        "about": "About",
+        "contact": "Contact",
+        "settings": "Settings",
+        "users": "Users",
+        "footer": {
+            "links": "Quick Links"
+        }
+    },
+    "auth": {
+        "login": "Login",
+        "logout": "Logout"
+    },
+    "about": "About Us",
+    "contact": "Contact",
+    "notices": "Notices",
+    "forms": {
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "required": "This field is required",
+        "invalidEmail": "Invalid email address"
+    },
+    "tables": {
+        "actions": "Actions",
+        "noData": "No data found",
+        "showing": "Showing",
+        "of": "of",
+        "page": "Page"
+    },
+    "empty": {
+        "noData": "No data available",
+        "noDataDesc": "Add a new item to get started"
+    },
+    "error": {
+        "title": "Error",
+        "loadFailed": "Failed to load data",
+        "saveFailed": "Failed to save",
+        "noPermission": "You don't have permission to view this page",
+        "accessDenied": "Access Denied",
+        "somethingWrong": "Something went wrong"
+    },
+    "loading": {
+        "fetchingData": "Fetching data..."
+    },
+    "seo": {
+        "home": {
+            "title": "Home",
+            "description": "A modern educational institution in Bangladesh"
+        },
+        "about": {
+            "title": "About Us",
+            "description": "Learn about our institution, history, and educational values"
+        },
+        "contact": {
+            "title": "Contact",
+            "description": "Get in touch with us - Address, Phone, and Email"
+        },
+        "notices": {
+            "title": "Notices",
+            "description": "Latest announcements and important notices"
+        }
+    },
+    "admin": {
+        "portalName": "Admin Portal",
+        "systemName": "School Management System",
+        "nav": {
+            "dashboard": "Dashboard",
+            "users": "Users",
+            "roles": "Roles",
+            "branding": "Branding",
+            "customization": "Customization"
+        },
+        "settings": {
+            "title": "System Settings",
+            "customization": {
+                "title": "UI Customization",
+                "description": "Manage navigation menus and dashboard layouts",
+                "menuEditor": "Menu Editor",
+                "layoutEditor": "Dashboard Layout",
+                "auditLogs": "Audit Logs",
+                "bootstrap": "Bootstrap Menu",
+                "comingSoon": "Dashboard layout editor coming soon...",
+                "tabs": {
+                    "navigation": "Navigation Menu",
+                    "dashboard": "Dashboard Widgets",
+                    "audit": "Audit Logs"
+                },
+                "menu": {
+                    "noItems": "No Menu Items Found",
+                    "bootstrapDesc": "It looks like your navigation menu hasn't been initialized yet. Bootstrap it from system defaults.",
+                    "visibilityFor": "Configure Visibility For:",
+                    "public": "Public",
+                    "table": {
+                        "item": "Navigation Item",
+                        "route": "Route",
+                        "permission": "Required Permission",
+                        "visible": "Visible"
+                    }
+                },
+                "audit": {
+                    "noLogs": "No audit logs found.",
+                    "table": {
+                        "user": "User",
+                        "action": "Action",
+                        "resource": "Resource",
+                        "details": "Details",
+                        "timestamp": "Timestamp"
+                    }
+                }
+            },
+            "branding": {
+                "title": "Branding & Identity",
+                "description": "Manage your school's name, logo, and theme colors",
+                "organization": "Organization Profile",
+                "contact": "Contact Information",
+                "legal": "Legal & Footer",
+                "schoolNameBn": "School Name (Bangla)",
+                "schoolNameEn": "School Name (English)",
+                "primaryColor": "Primary Color",
+                "email": "Email Address",
+                "phone": "Phone Number",
+                "addressBn": "Address (Bangla)",
+                "addressEn": "Address (English)",
+                "footerTextBn": "Footer Text (Bangla)",
+                "footerTextEn": "Footer Text (English)"
+            },
+            "dashboard": {
+                "title": "Admin Dashboard",
+                "welcome": "Welcome, {name}",
+                "debug": "Debug Info:",
+                "email": "Email",
+                "roles": "Roles",
+                "permissions": "Permissions"
+            }
+        },
+        "users": {
+            "title": "User Management",
+            "description": "List of system users and their assigned roles",
+            "addUser": "Add User",
+            "editRoles": "Edit Roles",
+            "noRoles": "No roles",
+            "active": "Active",
+            "inactive": "Inactive",
+            "table": {
+                "user": "User",
+                "email": "Email",
+                "roles": "Roles",
+                "status": "Status",
+                "actions": "Actions"
+            }
+        },
+        "roles": {
+            "title": "Role Management",
+            "description": "Manage system roles and their permissions",
+            "addRole": "Add Role",
+            "type": "Type",
+            "system": "System",
+            "custom": "Custom",
+            "noPermissions": "No permissions",
+            "more": "+{count} more",
+            "table": {
+                "role": "Role",
+                "permissions": "Permissions",
+                "type": "Type",
+                "actions": "Actions"
+            }
+        }
+    },
+    "users": {
+        "title": "User Management",
+        "description": "List of system users and their assigned roles",
+        "table": {
+            "name": "Name",
+            "email": "Email",
+            "roles": "Roles",
+            "status": "Status",
+            "actions": "Actions"
+        }
+    },
+    "roles": {
+        "title": "Role Management",
+        "description": "Manage system roles and their permissions",
+        "table": {
+            "name": "Role Name",
+            "displayName": "Display Name",
+            "isSystem": "System Role",
+            "permissions": "Permissions"
+        },
+        "deleteConfirm": "Are you sure you want to delete this role? This action cannot be undone."
+    },
+    "attendance": {
+        "title": "Daily Attendance",
+        "status": "Attendance Status",
+        "mark_rest_present": "Mark Rest as Present",
+        "save_success": "Attendance saved successfully",
+        "save_error": "Failed to save attendance",
+        "confirm_partial": "Some students don't have a status. Save anyway?",
+        "status_present": "Present",
+        "status_absent": "Absent",
+        "status_late": "Late",
+        "status_excused": "Excused"
+    },
+    "student": {
+        "roll": "Roll No",
+        "name": "Student Name",
+        "portalName": "Student Portal"
+    },
+    "fees": {
+        "title": "Fees & Accounting",
+        "my_fees": "My Fees & Dues",
+        "total_payable": "Total Payable",
+        "head": "Fee Description",
+        "due_date": "Due Date",
+        "amount": "Amount",
+        "status": "Status",
+        "status_unpaid": "Unpaid",
+        "status_paid": "Paid",
+        "status_partial": "Partial",
+        "status_waived": "Waived",
+        "admin_desc": "Manage student fees, collect payments, and view financial reports.",
+        "allocate": "Allocate Fees",
+        "pending_dues": "Recent Pending Dues",
+        "no_pending": "No pending fees found.",
+        "collect": "Collect",
+        "allocate_title": "Bulk Fee Allocation",
+        "allocate_desc": "Assign fee heads to all students in a specific class or individually.",
+        "select_head": "Select fee head...",
+        "confirm_allocation": "Allocate to Class"
+    },
+    "exams": {
+        "title": "Exams & Results",
+        "list": "Exam List",
+        "list_desc": "View and manage scheduled exams and result status.",
+        "marks_entry": "Marks Entry",
+        "marks_entry_desc": "Enter and update student marks for this exam.",
+        "marks": "Marks",
+        "no_marks_entered": "Please enter marks for at least one student.",
+        "save_success": "Marks saved successfully",
+        "save_error": "Failed to save marks",
+        "enter_marks": "Enter Marks",
+        "subject": "Subject",
+        "date": "Exam Date",
+        "status": "Status",
+        "published": "Published",
+        "not_published": "Not Published",
+        "publish": "Publish Results",
+        "unpublish": "Unpublish Results"
+    },
+    "academic": {
+        "class": "Class",
+        "selectClass": "Select Class"
+    },
+    "promotion": {
+        "title": "Student Promotion",
+        "desc": "Promote students to the next academic year or class.",
+        "from_class": "Current Class",
+        "to_class": "Target Class",
+        "academic_year": "Academic Year",
+        "fees_check": "Fees Clearance Status",
+        "promote_button": "Promote Selection",
+        "history_title": "Promotion History",
+        "table": {
+            "student": "Student",
+            "from": "From",
+            "to": "To",
+            "year": "Year",
+            "date": "Date"
+        },
+        "success": "Student promoted successfully",
+        "error_fees": "Promotion failed: Pending fees found.",
+        "bulk_success": "{count} students promoted successfully"
+    }
+}
