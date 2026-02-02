@@ -175,7 +175,7 @@ Added to `src/lib/i18n/locales/bn.json` and `en.json`:
 {
   "seo": {
     "home": {
-      "title": "নীড়পাতা",
+      "title": "আদর্শ উচ্চ বিদ্যালয়",
       "description": "বাংলাদেশের একটি আধুনিক শিক্ষা প্রতিষ্ঠান"
     },
     "about": {

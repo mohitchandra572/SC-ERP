@@ -18,7 +18,7 @@ export async function createDepartment(name: string, description?: string) {
         data: { name, description }
     })
 
-    await auditService.logMutation("hr_departments", "CREATE", { id: dept.id, name })
+    await auditService.logMutation("hr_departments", "CREATE", null, { id: dept.id, name })
     revalidatePath("/admin/hr")
     return { success: true, id: dept.id }
 }
@@ -43,7 +43,7 @@ export async function createDesignation(name: string, level: number = 1) {
         data: { name, level }
     })
 
-    await auditService.logMutation("hr_designations", "CREATE", { id: designation.id, name })
+    await auditService.logMutation("hr_designations", "CREATE", null, { id: designation.id, name })
     revalidatePath("/admin/hr")
     return { success: true, id: designation.id }
 }
@@ -79,7 +79,7 @@ export async function updateStaffOnboarding(staffId: string, data: {
         }
     })
 
-    await auditService.logMutation("hr_staff_profiles", "UPDATE", { id: staffId, changes: data })
+    await auditService.logMutation("hr_staff_profiles", "UPDATE", null, { id: staffId, changes: data }) // 'before' state not easily available here
     revalidatePath("/admin/hr/staff")
     return { success: true }
 }

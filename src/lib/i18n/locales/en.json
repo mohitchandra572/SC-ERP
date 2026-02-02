@@ -25,7 +25,11 @@
         "users": "Users",
         "footer": {
             "links": "Quick Links"
-        }
+        },
+        "teachers": "Teachers",
+        "admission": "Admission",
+        "gallery": "Gallery",
+        "notices": "Notices"
     },
     "auth": {
         "login": "Login",
@@ -34,6 +38,13 @@
     "about": "About Us",
     "contact": "Contact",
     "notices": "Notices",
+    "teachers": "Teachers",
+    "admission": "Admission",
+    "gallery": "Gallery",
+    "admission_info": "Admission Info",
+    "login_portal": "Login",
+    "portal_access": "Enter Portal",
+    "top_login": "Login / Register",
     "forms": {
         "name": "Name",
         "email": "Email",
@@ -91,6 +102,14 @@
             "branding": "Branding",
             "customization": "Customization"
         },
+        "dashboard": {
+            "title": "Admin Dashboard",
+            "welcome": "Welcome, {name}",
+            "debug": "Debug Info:",
+            "email": "Email",
+            "roles": "Roles",
+            "permissions": "Permissions"
+        },
         "settings": {
             "title": "System Settings",
             "customization": {
@@ -144,14 +163,6 @@
                 "addressEn": "Address (English)",
                 "footerTextBn": "Footer Text (Bangla)",
                 "footerTextEn": "Footer Text (English)"
-            },
-            "dashboard": {
-                "title": "Admin Dashboard",
-                "welcome": "Welcome, {name}",
-                "debug": "Debug Info:",
-                "email": "Email",
-                "roles": "Roles",
-                "permissions": "Permissions"
             }
         },
         "users": {

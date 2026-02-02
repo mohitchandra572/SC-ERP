@@ -23,7 +23,7 @@ export async function createSalaryComponent(data: {
         data
     })
 
-    await auditService.logMutation("hr_salary_components", "CREATE", { id: component.id, name: component.name })
+    await auditService.logMutation("hr_salary_components", "CREATE", null, { id: component.id, name: component.name })
     return { success: true, id: component.id }
 }
 
@@ -53,7 +53,7 @@ export async function createSalaryStructure(name: string, components: { componen
         }
     })
 
-    await auditService.logMutation("hr_salary_structures", "CREATE", { id: structure.id, name })
+    await auditService.logMutation("hr_salary_structures", "CREATE", null, { id: structure.id, name })
     return { success: true, id: structure.id }
 }
 
@@ -69,7 +69,7 @@ export async function generateMonthlyPayroll(month: number, year: number) {
         where: { month_year: { month, year } }
     })
 
-    if (existingRun && existingRun.status === 'APPROVED') {
+    if (existingRun && existingRun.status === 'PAID') {
         throw new Error("Payroll for this month is already approved and locked.")
     }
 
@@ -167,7 +167,7 @@ export async function generateMonthlyPayroll(month: number, year: number) {
         }
     })
 
-    await auditService.logMutation("hr_payroll_runs", "GENERATE", { month, year, count: staffWithStructure.length })
+    await auditService.logMutation("hr_payroll_runs", "GENERATE", null, { month, year, count: staffWithStructure.length })
     revalidatePath("/admin/payroll")
 
     return { success: true, id: payrollRun.id }
@@ -186,12 +186,12 @@ export async function approvePayrollRun(payrollRunId: string) {
     })
 
     if (!run) throw new Error("Payroll run not found")
-    if (run.status === 'APPROVED') throw new Error("Already approved")
+    if (run.status === 'PAID') throw new Error("Already paid/approved")
 
     await prisma.$transaction([
         prisma.payrollRun.update({
             where: { id: payrollRunId },
-            data: { status: 'APPROVED' }
+            data: { status: 'PAID' }
         }),
         prisma.payslip.updateMany({
             where: { payrollRunId },
@@ -199,7 +199,7 @@ export async function approvePayrollRun(payrollRunId: string) {
         })
     ])
 
-    await auditService.logMutation("hr_payroll_runs", "APPROVE", { id: payrollRunId, total: run.totalNet })
+    await auditService.logMutation("hr_payroll_runs", "APPROVE", run, { ...run, status: 'PAID' })
     revalidatePath("/admin/payroll")
 
     return { success: true }

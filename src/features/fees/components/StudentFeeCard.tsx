@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { FeeStatus } from "@prisma/client"
 import { format } from "date-fns"
+import { useTranslation } from "@/lib/i18n/i18n-provider"
 
 interface StudentFee {
     id: string
@@ -20,10 +21,11 @@ interface StudentFee {
 
 interface StudentFeeCardProps {
     fees: StudentFee[]
-    t: (key: string) => string
 }
 
-export function StudentFeeCard({ fees, t }: StudentFeeCardProps) {
+export function StudentFeeCard({ fees }: StudentFeeCardProps) {
+    const { t } = useTranslation()
+
     const totalDues = fees.reduce((acc, f) => f.status === 'UNPAID' || f.status === 'PARTIAL' ? acc + (f.amount - f.paidAmount) : acc, 0)
 
     const getStatusVariant = (status: FeeStatus) => {

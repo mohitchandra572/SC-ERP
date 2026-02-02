@@ -49,7 +49,7 @@ export async function uploadDocument(formData: FormData, ownerMetadata: { type: 
         }
     })
 
-    await auditService.logMutation("institutional_documents", "CREATE", { id: document.id, title })
+    await auditService.logMutation("institutional_documents", "CREATE", null, { id: document.id, title })
     revalidatePath("/admin/documents")
 
     return { success: true, id: document.id }
@@ -108,7 +108,7 @@ export async function deleteDocument(documentId: string) {
         where: { id: documentId }
     })
 
-    await auditService.logMutation("institutional_documents", "DELETE", { id: documentId, title: document.title })
+    await auditService.logMutation("institutional_documents", "DELETE", { id: documentId, title: document.title }, null)
     revalidatePath("/admin/documents")
 
     return { success: true }

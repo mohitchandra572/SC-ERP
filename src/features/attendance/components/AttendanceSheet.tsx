@@ -1,12 +1,15 @@
 'use client'
 
-import { useState, useTransition } from "react"
+import React, { useState, useMemo, useTransition } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { AttendanceStatus } from "@prisma/client"
 import { saveAttendance } from "../attendance-actions"
 import { toast } from "sonner"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+
+import { useTranslation } from "@/lib/i18n/i18n-provider"
 
 interface Student {
     id: string
@@ -19,10 +22,11 @@ interface AttendanceSheetProps {
     classId: string
     date: Date
     initialStudents: Student[]
-    t: (key: string) => string
 }
 
-export function AttendanceSheet({ classId, date, initialStudents, t }: AttendanceSheetProps) {
+export function AttendanceSheet({ classId, date, initialStudents }: AttendanceSheetProps) {
+    const { t } = useTranslation()
+
     const [records, setRecords] = useState<Record<string, AttendanceStatus>>(
         initialStudents.reduce((acc, s) => {
             if (s.status) acc[s.id] = s.status

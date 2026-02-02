@@ -29,7 +29,7 @@ export default async function StudentFeesPage() {
                 description={t('fees.student_desc') || 'View and manage your academic and institutional dues.'}
             />
             <div className="grid gap-6">
-                <StudentFeeCard fees={formattedFees} t={t} />
+                <StudentFeeCard fees={formattedFees} />
             </div>
         </PageShell>
     )

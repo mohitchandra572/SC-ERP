@@ -16,7 +16,12 @@ export async function getMenuItems() {
     }
 
     const items = await prisma.menuItem.findMany({
-        include: { children: true },
+        include: {
+            children: {
+                include: { roleOverrides: true }
+            },
+            roleOverrides: true
+        },
         orderBy: { order: 'asc' }
     })
 
@@ -24,12 +29,18 @@ export async function getMenuItems() {
     return items
 }
 
-export async function bootstrapMenu() {
+export async function bootstrapMenu(force = false) {
     const session = await auth()
     if (!hasPermission(session, 'settings.branding')) return { error: "Unauthorized" }
 
-    const count = await prisma.menuItem.count()
-    if (count > 0) return { error: "Menu already bootstrapped" }
+    if (!force) {
+        const count = await prisma.menuItem.count()
+        if (count > 0) return { error: "Menu already bootstrapped" }
+    } else {
+        // Clear everything for a clean sync
+        await prisma.roleMenuOverride.deleteMany({})
+        await prisma.menuItem.deleteMany({})
+    }
 
     for (const item of DEFAULT_NAV) {
         await prisma.menuItem.create({
@@ -44,7 +55,8 @@ export async function bootstrapMenu() {
         })
     }
 
-    await createAuditLog("MENU_BOOTSTRAP", "ui_menu_items", { count: DEFAULT_NAV.length })
+    await createAuditLog("MENU_BOOTSTRAP", "ui_menu_items", { count: DEFAULT_NAV.length, forced: force })
+    revalidatePath("/admin", "layout")
     revalidatePath("/admin/settings/customization")
     return { success: true }
 }

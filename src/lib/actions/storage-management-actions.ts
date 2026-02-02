@@ -33,7 +33,7 @@ export async function uploadSchoolLogo(formData: FormData) {
         }
     })
 
-    await auditService.logMutation("school_settings", "UPDATE", { field: 'logoUrl', value: uploadResult.publicUrl })
+    await auditService.logMutation("school_settings", "UPDATE", null, { field: 'logoUrl', value: uploadResult.publicUrl })
     revalidatePath("/")
 
     return { success: true, url: uploadResult.publicUrl }
@@ -52,7 +52,7 @@ export async function updateStoragePolicy(docType: DocumentType, provider: 'clou
         create: { docType, storageProvider: provider }
     })
 
-    await auditService.logMutation("institutional_storage_policies", "UPSERT", { docType, provider })
+    await auditService.logMutation("institutional_storage_policies", "UPSERT", null, { docType, provider })
     revalidatePath("/admin/settings/storage")
 
     return { success: true }

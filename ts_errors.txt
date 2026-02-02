@@ -1,0 +1,21 @@
+src/app/(student)/student/results/page.tsx(97,58): error TS2339: Property 'name' does not exist on type '{ subject: { id: string; name: string; code: string; }; } & { id: string; createdAt: Date; updatedAt: Date; classId: string; date: Date; title: string; term: string; academicYear: string; maxMarks: number; subjectId: string; }'.
+src/components/ui/scroll-area.tsx(4,38): error TS2307: Cannot find module '@radix-ui/react-scroll-area' or its corresponding type declarations.
+src/features/hr/hr-actions.ts(57,17): error TS2559: Type 'string' has no properties in common with type 'StaffDesignationCreateNestedOneWithoutStaffInput'.
+src/features/hr/hr-actions.ts(63,17): error TS2559: Type 'string' has no properties in common with type 'StaffDesignationUpdateOneWithoutStaffNestedInput'.
+src/lib/actions/config-actions.ts(36,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/config-actions.ts(72,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/config-actions.ts(121,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/document-actions.ts(52,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/document-actions.ts(111,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/hr-actions.ts(21,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/hr-actions.ts(46,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/hr-actions.ts(82,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/payroll-actions.ts(26,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/payroll-actions.ts(56,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/payroll-actions.ts(72,24): error TS2367: This comparison appears to be unintentional because the types 'PayrollStatus' and '"APPROVED"' have no overlap.
+src/lib/actions/payroll-actions.ts(170,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/payroll-actions.ts(189,9): error TS2367: This comparison appears to be unintentional because the types 'PayrollStatus' and '"APPROVED"' have no overlap.
+src/lib/actions/payroll-actions.ts(194,21): error TS2322: Type '"APPROVED"' is not assignable to type 'PayrollStatus | EnumPayrollStatusFieldUpdateOperationsInput | undefined'.
+src/lib/actions/payroll-actions.ts(202,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/storage-management-actions.ts(36,24): error TS2554: Expected 4-5 arguments, but got 3.
+src/lib/actions/storage-management-actions.ts(55,24): error TS2554: Expected 4-5 arguments, but got 3.

@@ -73,7 +73,6 @@ export default async function AttendancePage({
                     classId={classId}
                     date={selectedDate}
                     initialStudents={students}
-                    t={t}
                 />
             ) : (
                 <Card className="border-dashed border-2 bg-slate-50/50">

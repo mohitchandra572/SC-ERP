@@ -54,13 +54,13 @@ export async function updateStaffProfile(userId: string, data: {
             create: {
                 userId,
                 salaryGradeId: data.salaryGradeId,
-                designation: data.designation,
+                designationId: data.designation,
                 joiningDate: data.joiningDate,
                 status: data.status,
             },
             update: {
                 salaryGradeId: data.salaryGradeId,
-                designation: data.designation,
+                designationId: data.designation,
                 joiningDate: data.joiningDate,
                 status: data.status,
             }
@@ -126,7 +126,7 @@ export async function processPayroll(month: number, year: number) {
             results.push(record)
         }
 
-        await auditService.log('PROCESS_PAYROLL', 'Payroll', { month, year, count: results.length })
+        await auditService.log('PROCESS_PAYROLL', 'Payroll', { month, year, count: results.length }, { accessType: 'MUTATION' })
         revalidatePath('/admin/hr/payroll')
         return { success: true, count: results.length }
     } catch (error) {

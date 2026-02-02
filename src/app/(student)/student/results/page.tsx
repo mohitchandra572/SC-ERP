@@ -94,7 +94,7 @@ export default async function StudentResultsPage() {
                                             {result.exam.subject.name}
                                         </TableCell>
                                         <TableCell className="text-slate-600">
-                                            {result.exam.name || (t('exams.regular_exam') || 'Term Exam')}
+                                            {result.exam.title || (t('exams.regular_exam') || 'Term Exam')}
                                         </TableCell>
                                         <TableCell className="text-slate-500">
                                             {format(new Date(result.exam.date), 'dd MMM yyyy')}

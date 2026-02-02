@@ -18,8 +18,9 @@ export default function NoticesPage() {
     return (
         <PageShell>
             <PageHeader
-                title="নোটিশ"
-                description="সর্বশেষ ঘোষণা এবং গুরুত্বপূর্ণ নোটিশ"
+                title="নোটিশ বোর্ড"
+                description="সর্বশেষ ঘোষণা, পরীক্ষার সময়সূচী ও গুরুত্বপূর্ণ তথ্য"
+                variant="hero"
             />
             <EmptyState
                 icon={<Bell className="h-12 w-12" />}

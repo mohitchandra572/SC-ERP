@@ -2,7 +2,7 @@
 
 import { Menu, GraduationCap } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { DynamicNav } from "./dynamic-nav"
 import { useState } from "react"
 import { useTranslation } from "@/lib/i18n/i18n-provider"
@@ -24,6 +24,10 @@ export function MobileNav({ items }: MobileNavProps) {
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="p-0 border-none bg-white">
+                <SheetHeader className="sr-only">
+                    <SheetTitle>{t('admin.portalName')}</SheetTitle>
+                    <SheetDescription>Mobile navigation menu for admin portal</SheetDescription>
+                </SheetHeader>
                 <div className="flex flex-col h-full bg-white">
                     <div className="p-6 border-b flex items-center gap-3">
                         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-lg shadow-primary/20">

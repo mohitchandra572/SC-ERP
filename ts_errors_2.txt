@@ -1,0 +1,1 @@
+src/app/(student)/student/results/page.tsx(97,58): error TS2339: Property 'name' does not exist on type '{ subject: { id: string; name: string; code: string; }; } & { id: string; createdAt: Date; updatedAt: Date; classId: string; date: Date; title: string; term: string; academicYear: string; maxMarks: number; subjectId: string; }'.

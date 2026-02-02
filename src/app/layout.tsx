@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans_Bengali } from "next/font/google";
 import "./globals.css";
 import { getSchoolSettings } from "@/lib/branding/branding";
 import { I18nProvider } from "@/lib/i18n/i18n-provider";
 import { cookies } from "next/headers";
 import { env } from "@/lib/env";
+import { AuthProvider } from "@/components/providers/auth-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +15,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const notoBengali = Noto_Sans_Bengali({
+  variable: "--font-noto-bengali",
+  subsets: ["bengali"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -36,7 +43,7 @@ export default async function RootLayout({
   const locale = (cookieStore.get('NEXT_LOCALE')?.value || 'bn') as 'bn' | 'en'
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <style>{`
             :root {
@@ -45,15 +52,20 @@ export default async function RootLayout({
           `}</style>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${notoBengali.variable} antialiased font-bengali`}
+        suppressHydrationWarning
       >
-        <I18nProvider initialLocale={locale}>
-          {children}
-        </I18nProvider>
+        <AuthProvider>
+          <I18nProvider initialLocale={locale}>
+            {children}
+          </I18nProvider>
+        </AuthProvider>
       </body>
     </html>
   );
 }
+
+
 
 
 

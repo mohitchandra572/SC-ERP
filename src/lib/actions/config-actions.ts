@@ -33,7 +33,7 @@ export async function saveConfigDraft(key: string, data: any, description?: stri
         }
     })
 
-    await auditService.logMutation("system_config_snapshots", "CREATE_DRAFT", { id: snapshot.id, key, version })
+    await auditService.logMutation("system_config_snapshots", "CREATE_DRAFT", null, { id: snapshot.id, key, version })
     return { success: true, id: snapshot.id }
 }
 
@@ -69,7 +69,7 @@ export async function publishConfig(snapshotId: string) {
         })
     ])
 
-    await auditService.logMutation("system_config_snapshots", "PUBLISH", { id: snapshotId, key: snapshot.key, version: snapshot.version })
+    await auditService.logMutation("system_config_snapshots", "PUBLISH", snapshot, { ...snapshot, status: 'PUBLISHED' })
 
     // Global revalidate since config affects many parts of the UI
     revalidatePath("/", "layout")
@@ -118,7 +118,7 @@ export async function rollbackConfig(snapshotId: string) {
         })
     ])
 
-    await auditService.logMutation("system_config_snapshots", "ROLLBACK", { key: source.key, toVersion: source.version, newVersion: newVersionNum })
+    await auditService.logMutation("system_config_snapshots", "ROLLBACK", { key: source.key, version: source.version }, { key: source.key, version: newVersionNum })
     revalidatePath("/", "layout")
     return { success: true }
 }

@@ -9,7 +9,8 @@ import { createAuditLog } from "./audit-helper"
 
 export async function updateLanguagePreference(locale: 'bn' | 'en') {
     const session = await auth()
-    if (!session) throw new Error("Unauthorized")
+    // We allow both authenticated and unauthenticated users to change their language preference.
+    // Unauthenticated users will only have their preference saved in a cookie.
 
     // Check permission - for self-service we might not use a specific slug, 
     // but the policy requires hasPermission checks on all mutative actions.

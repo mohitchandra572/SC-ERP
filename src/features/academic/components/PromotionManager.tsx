@@ -12,6 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { toast } from 'sonner'
 import { TrendingUp, AlertCircle, CheckCircle2 } from 'lucide-react'
 
+import { useTranslation } from "@/lib/i18n/i18n-provider"
+
 interface Student {
     id: string
     fullName: string
@@ -23,10 +25,11 @@ interface PromotionManagerProps {
     currentClassId: string
     classes: { id: string, name: string }[]
     students: Student[]
-    t: any
 }
 
-export function PromotionManager({ currentClassId, classes, students, t }: PromotionManagerProps) {
+export function PromotionManager({ currentClassId, classes, students }: PromotionManagerProps) {
+    const { t } = useTranslation()
+
     const router = useRouter()
     const [isPending, startTransition] = useTransition()
     const [selectedIds, setSelectedIds] = useState<string[]>([])

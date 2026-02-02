@@ -82,7 +82,6 @@ export default async function PromotionsPage({ searchParams }: { searchParams: {
                             currentClassId={classId}
                             classes={classes}
                             students={formattedStudents}
-                            t={t}
                         />
                     ) : (
                         <div className="h-32 flex items-center justify-center text-slate-400 italic">

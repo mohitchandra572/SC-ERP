@@ -50,7 +50,6 @@ export default async function MarksEntryPage({ params }: MarksEntryPageProps) {
                     examId={examId}
                     title={t('exams.marks_entry')}
                     initialMarks={studentMarks}
-                    t={t}
                 />
             </div>
         </PageShell>

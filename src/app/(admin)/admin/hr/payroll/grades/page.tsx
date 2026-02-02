@@ -1,31 +1,32 @@
 import { prisma } from "@/lib/db"
 import { PageShell } from "@/components/layout/page-shell"
 import { PageHeader } from "@/components/layout/page-header"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Plus, Settings2 } from "lucide-react"
+import { getServerTranslation } from "@/lib/i18n/server"
 
 export default async function SalaryGradesPage() {
+    const { t } = await getServerTranslation()
     const grades = await prisma.salaryGrade.findMany()
 
     return (
         <PageShell>
             <PageHeader
-                title="Salary Grades"
-                description="Define institutional pay scales and allowance structures."
+                title={t('admin.hr.page.grades.title')}
+                description={t('admin.hr.page.grades.description')}
             />
 
             <div className="flex justify-end mb-6">
                 <Button className="bg-indigo-600 hover:bg-indigo-700 gap-2">
                     <Plus className="h-4 w-4" />
-                    New Grade
+                    {t('admin.hr.page.grades.addGrade')}
                 </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {grades.length === 0 ? (
                     <div className="col-span-full h-48 bg-slate-50 border border-dashed border-slate-200 rounded-xl flex items-center justify-center text-slate-400">
-                        No salary grades defined yet.
+                        {t('admin.hr.page.grades.table.noRecords')}
                     </div>
                 ) : (
                     grades.map((grade: any) => (
@@ -38,7 +39,7 @@ export default async function SalaryGradesPage() {
                             </div>
 
                             <div className="flex flex-col">
-                                <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">Base Salary</span>
+                                <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">{t('admin.hr.page.grades.table.basicSalary')}</span>
                                 <span className="text-2xl font-black text-indigo-600">{grade.baseSalary.toLocaleString()} <span className="text-sm font-medium">BDT</span></span>
                             </div>
 

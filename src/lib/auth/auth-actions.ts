@@ -2,15 +2,51 @@
 
 import { signIn } from '@/lib/auth/auth'
 import { AuthError } from 'next-auth'
+import { redirect } from 'next/navigation'
+import { prisma } from '@/lib/db'
 
 export async function authenticate(
     prevState: string | undefined,
     formData: FormData,
 ) {
     try {
-        // NextAuth v5 signIn throws error on redirect, so we catch it
-        // formData automatically handled by credentials provider if fields match
-        await signIn('credentials', formData)
+        const email = formData.get('email') as string
+
+        // Sign in with credentials
+        await signIn('credentials', {
+            email: formData.get('email'),
+            password: formData.get('password'),
+            redirect: false,
+        })
+
+        // If successful, fetch user role and redirect accordingly
+        const user = await prisma.user.findUnique({
+            where: { email },
+            include: {
+                roles: {
+                    include: { role: true }
+                }
+            }
+        })
+
+        if (user && user.roles.length > 0) {
+            const primaryRole = user.roles[0].role.name
+
+            // Redirect based on role
+            if (primaryRole === 'SCHOOL_ADMIN') {
+                redirect('/admin')
+            } else if (primaryRole === 'TEACHER') {
+                redirect('/teacher')
+            } else if (primaryRole === 'STUDENT') {
+                redirect('/student')
+            } else if (primaryRole === 'GUARDIAN') {
+                redirect('/guardian')
+            }
+        }
+
+        // Default redirect if no specific role
+        redirect('/admin')
+
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

@@ -9,6 +9,8 @@ import { saveMarks } from "../exam-actions"
 import { toast } from "sonner"
 import { Save, Loader2 } from "lucide-react"
 
+import { useTranslation } from "@/lib/i18n/i18n-provider"
+
 interface StudentMark {
     id: string
     fullName: string
@@ -20,10 +22,11 @@ interface MarksEntryTableProps {
     examId: string
     title: string
     initialMarks: StudentMark[]
-    t: (key: string) => string
 }
 
-export function MarksEntryTable({ examId, title, initialMarks, t }: MarksEntryTableProps) {
+export function MarksEntryTable({ examId, title, initialMarks }: MarksEntryTableProps) {
+    const { t } = useTranslation()
+
     const [marks, setMarks] = useState<Record<string, string>>(
         initialMarks.reduce((acc, s) => {
             acc[s.id] = s.marksObtained?.toString() || ""
