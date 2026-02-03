@@ -5,36 +5,36 @@ import { BookOpen, Users, Trophy, Heart } from 'lucide-react'
 
 const features = [
     {
-        icon: <BookOpen className="h-8 w-8 text-indigo-600" />,
+        icon: <BookOpen className="h-8 w-8" style={{ color: 'var(--color-school-navy)' }} />,
         title: 'অ্যাকাডেমিক শ্রেষ্ঠত্ব',
         titleEn: 'Academic Excellence',
         description: 'সর্বাধুনিক কারিকুলাম এবং অভিজ্ঞ শিক্ষকমণ্ডলীর মাধ্যমে শিক্ষার্থীদের মেধা বিকাশ।',
-        color: 'indigo',
-        gradient: 'from-indigo-500/10 to-blue-500/10'
+        bgStart: 'var(--color-school-green)',
+        bgEnd: 'var(--color-school-navy)'
     },
     {
-        icon: <Trophy className="h-8 w-8 text-school-gold" />,
+        icon: <Trophy className="h-8 w-8" style={{ color: 'var(--color-school-gold)' }} />,
         title: 'আধুনিক সুযোগ-সুবিধা',
         titleEn: 'Modern Facilities',
         description: 'ডিজিটাল ক্লাসরুম, উন্নত ল্যাব এবং খেলার মাঠসহ ক্যাস্পাসে সব আধুনিক সুবিধা।',
-        color: 'amber',
-        gradient: 'from-amber-500/10 to-orange-500/10'
+        bgStart: 'var(--color-school-gold)',
+        bgEnd: 'var(--color-school-teal)'
     },
     {
-        icon: <Users className="h-8 w-8 text-emerald-600" />,
+        icon: <Users className="h-8 w-8" style={{ color: 'var(--color-school-green)' }} />,
         title: 'অভিজ্ঞ শিক্ষকবৃন্দ',
         titleEn: 'Expert Faculty',
         description: 'প্রশিক্ষিত ও নিবেদিতপ্রাণ শিক্ষক মণ্ডলী যারা প্রতিটি শিক্ষার্থীর প্রতি যত্নশীল।',
-        color: 'emerald',
-        gradient: 'from-emerald-500/10 to-teal-500/10'
+        bgStart: 'var(--color-school-teal)',
+        bgEnd: 'var(--color-school-navy)'
     },
     {
-        icon: <Heart className="h-8 w-8 text-rose-600" />,
+        icon: <Heart className="h-8 w-8" style={{ color: 'var(--color-school-gold)' }} />,
         title: 'চরিত্র গঠন',
         titleEn: 'Character Building',
         description: 'নৈতিক শিক্ষা ও মূল্যবোধের মাধ্যমে আদর্শ নাগরিক হিসেবে গড়ে তোলা।',
-        color: 'rose',
-        gradient: 'from-rose-500/10 to-pink-500/10'
+        bgStart: 'var(--color-school-navy)',
+        bgEnd: 'var(--color-school-green)'
     }
 ]
 
@@ -112,7 +112,7 @@ export function Features() {
                             whileHover={{ y: -12, transition: { duration: 0.3 } }}
                             className="relative group h-full"
                         >
-                            <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10`} />
+                            <div className="absolute inset-0 rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10" style={{ background: `linear-gradient(135deg, ${feature.bgStart} 0%, ${feature.bgEnd} 100%)` }} />
 
                             <div className="h-full bg-white border border-slate-100 p-10 rounded-[2.5rem] shadow-[0_10px_30px_rgba(0,0,0,0.02)] group-hover:shadow-2xl group-hover:shadow-slate-200/50 transition-all duration-500 flex flex-col justify-between">
                                 <div className="space-y-8">

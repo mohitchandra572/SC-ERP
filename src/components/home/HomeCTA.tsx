@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export function HomeCTA() {
     return (
-        <section className="py-32 px-4 bg-slate-900 text-white relative overflow-hidden">
+        <section aria-labelledby="home-cta-heading" className="py-32 px-4 relative overflow-hidden" style={{ background: 'linear-gradient(90deg, rgba(15,23,42,1) 0%, rgba(19,78,74,0.95) 100%)', color: '#fff' }}>
             {/* Decorative background elements */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(30,58,138,0.2),transparent_50%)]" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(6,95,70,0.15),transparent_50%)]" />
@@ -28,6 +28,7 @@ export function HomeCTA() {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
+                        id="home-cta-heading"
                         className="text-4xl md:text-6xl lg:text-7xl font-black font-bengali leading-tight"
                     >
                         আপনার সন্তানের <span className="text-school-gold">উজ্জ্বল ভবিষ্যৎ</span> এর শুরু এখান থেকেই
@@ -43,7 +44,7 @@ export function HomeCTA() {
                     </motion.p>
                 </div>
 
-                <motion.div
+                    <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -51,13 +52,13 @@ export function HomeCTA() {
                     className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8"
                 >
                     <Link href="/admission" className="w-full sm:w-auto">
-                        <Button className="w-full sm:w-auto bg-school-gold text-school-navy hover:bg-white font-black h-16 px-12 rounded-2xl transition-all hover:scale-105 active:scale-95 text-xl font-bengali flex items-center gap-3">
+                        <Button aria-label="Download admission form" className="w-full sm:w-auto font-black h-16 px-12 rounded-2xl transition-all hover:scale-105 active:scale-95 text-xl font-bengali flex items-center gap-3" style={{ backgroundColor: 'var(--color-school-gold)', color: 'var(--color-school-navy)' }}>
                             ভর্তি ফরম ডাউনলোড করুন
                             <ArrowRight className="h-6 w-6" />
                         </Button>
                     </Link>
                     <Link href="/contact" className="w-full sm:w-auto">
-                        <Button variant="outline" className="w-full sm:w-auto border-white/20 text-white hover:bg-white/5 font-black h-16 px-12 rounded-2xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95 text-xl font-bengali">
+                        <Button aria-label="Schedule a meeting" variant="outline" className="w-full sm:w-auto font-black h-16 px-12 rounded-2xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95 text-xl font-bengali" style={{ borderColor: 'rgba(255,255,255,0.12)', color: '#fff', backgroundColor: 'transparent' }}>
                             সাক্ষাতের সময় নিন
                         </Button>
                     </Link>

@@ -3,7 +3,7 @@ import { z } from "zod";
 /**
  * Helper to handle empty strings as undefined for optional fields
  */
-const emptyStringToUndefined = z.string().transform(val => val === "" ? undefined : val);
+const emptyStringToUndefined = z.string().optional().transform(val => val === "" ? undefined : val);
 
 /**
  * Environment Variable Schema

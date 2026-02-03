@@ -55,9 +55,12 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${notoBengali.variable} antialiased font-bengali`}
         suppressHydrationWarning
       >
+        <a href="#main" className="skip-link">Skip to content</a>
         <AuthProvider>
           <I18nProvider initialLocale={locale}>
-            {children}
+            <main id="main" tabIndex={-1}>
+              {children}
+            </main>
           </I18nProvider>
         </AuthProvider>
       </body>

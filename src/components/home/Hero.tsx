@@ -12,17 +12,16 @@ interface HeroProps {
 
 export function Hero({ schoolNameBn, schoolNameEn }: HeroProps) {
     return (
-        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden text-slate-900 pt-24 pb-32">
+        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden text-white pt-24 pb-32 hero-gradient">
 
-            {/* Background */}
-            <div className="absolute inset-0 bg-white" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.08),transparent_55%)]" />
+            {/* Decorative radial highlight */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.04),transparent_55%)]" />
 
             {/* Soft animated glow */}
             <motion.div
                 animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -top-40 left-1/2 -translate-x-1/2 w-[520px] h-[520px] bg-blue-500/10 blur-[140px] rounded-full"
+                className="absolute -top-40 left-1/2 -translate-x-1/2 w-130 h-130 bg-blue-500/10 blur-[140px] rounded-full"
             />
 
             {/* Content */}
@@ -43,10 +42,10 @@ export function Hero({ schoolNameBn, schoolNameEn }: HeroProps) {
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ type: 'spring', stiffness: 120, damping: 18 }}
-                    className="relative mx-auto w-28 h-28 rounded-2xl bg-white border border-slate-200 flex items-center justify-center shadow-xl"
+                    className="relative mx-auto w-28 h-28 rounded-2xl bg-white/95 border border-white/10 flex items-center justify-center shadow-xl"
                 >
-                    <Book className="w-14 h-14 text-school-navy" />
-                    <div className="absolute -top-3 -right-3 w-10 h-10 bg-amber-400 rounded-xl flex items-center justify-center shadow-lg">
+                    <Book className="w-14 h-14" style={{ color: 'var(--color-school-navy)' }} />
+                    <div className="absolute -top-3 -right-3 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg" style={{ backgroundColor: 'var(--color-school-gold)' }}>
                         <Trophy className="w-5 h-5 text-slate-900" />
                     </div>
                 </motion.div>
@@ -56,7 +55,7 @@ export function Hero({ schoolNameBn, schoolNameEn }: HeroProps) {
                     initial={{ opacity: 0, y: 25 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7 }}
-                    className="font-bengali text-4xl sm:text-6xl lg:text-7xl font-black leading-tight tracking-tight text-slate-900"
+                    className="font-bengali text-4xl sm:text-6xl lg:text-7xl font-black leading-tight tracking-tight text-white"
                 >
                     {schoolNameBn}
                 </motion.h1>
@@ -65,7 +64,7 @@ export function Hero({ schoolNameBn, schoolNameEn }: HeroProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
-                    className="text-slate-500 text-base sm:text-xl tracking-widest font-bold uppercase"
+                    className="text-blue-100/80 text-base sm:text-xl tracking-widest font-bold uppercase"
                 >
                     {schoolNameEn}
                 </motion.p>
@@ -78,7 +77,7 @@ export function Hero({ schoolNameBn, schoolNameEn }: HeroProps) {
                     className="flex flex-col sm:flex-row gap-4 justify-center pt-6"
                 >
                     <Link href="/about">
-                        <Button className="h-14 px-10 text-lg font-bengali bg-school-navy text-white hover:bg-slate-800 rounded-xl shadow-lg shadow-navy/20">
+                        <Button className="h-14 px-10 text-lg font-bengali rounded-xl shadow-lg" style={{ backgroundColor: 'var(--color-school-green)', color: '#fff' }}>
                             আরও জানুন <ArrowRight className="ml-2 w-5 h-5" />
                         </Button>
                     </Link>
@@ -86,7 +85,8 @@ export function Hero({ schoolNameBn, schoolNameEn }: HeroProps) {
                     <Link href="/login">
                         <Button
                             variant="outline"
-                            className="h-14 px-10 text-lg font-bengali border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl"
+                            className="h-14 px-10 text-lg font-bengali rounded-xl"
+                            style={{ borderColor: 'rgba(255,255,255,0.14)', color: '#fff', backgroundColor: 'transparent' }}
                         >
                             পোর্টালে প্রবেশ
                         </Button>

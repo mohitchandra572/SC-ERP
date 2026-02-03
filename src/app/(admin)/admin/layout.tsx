@@ -24,9 +24,9 @@ export default async function AdminLayout({
     return (
         <div className="flex min-h-screen bg-slate-50/50 font-sans">
             {/* Sidebar (Desktop) */}
-            <aside className="w-64 border-r bg-white hidden lg:flex flex-col sticky top-0 h-screen transition-all duration-300">
-                <div className="p-6 border-b flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-lg shadow-primary/20">
+            <aside className="w-64 border-r bg-white hidden lg:flex flex-col sticky top-0 h-screen transition-all duration-300" style={{ borderRightColor: 'rgba(6, 95, 70, 0.06)' }}>
+                <div className="p-6 border-b flex items-center gap-3" style={{ borderBottomColor: 'rgba(6, 95, 70, 0.06)' }}>
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl text-white shadow-lg" style={{ backgroundColor: 'var(--color-school-green)' }}>
                         <GraduationCap className="h-5 w-5" />
                     </div>
                     <h2 className="font-bold text-lg tracking-tight text-slate-900">{t('admin.portalName')}</h2>
@@ -34,9 +34,9 @@ export default async function AdminLayout({
                 <nav className="flex-1 p-4 overflow-y-auto custom-scrollbar">
                     <DynamicNav items={navigation} />
                 </nav>
-                <div className="p-4 border-t bg-slate-50/50">
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-white border border-slate-200 shadow-sm">
-                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold ring-2 ring-white">
+                <div className="p-4 border-t bg-white" style={{ borderTopColor: 'rgba(6, 95, 70, 0.06)' }}>
+                    <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/60 shadow-sm">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold ring-2 ring-white" style={{ backgroundColor: 'var(--color-school-navy)' }}>
                             {session.user?.name?.[0] || 'U'}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -50,8 +50,8 @@ export default async function AdminLayout({
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 flex flex-col min-w-0 min-h-screen">
-                <header className="h-16 border-b bg-white/80 backdrop-blur-md flex items-center justify-between px-4 sm:px-8 sticky top-0 z-40">
+            <main className="flex-1 flex flex-col min-w-0 min-h-screen bg-white">
+                <header className="h-16 border-b bg-white/80 backdrop-blur-md flex items-center justify-between px-4 sm:px-8 sticky top-0 z-40" style={{ borderBottomColor: 'rgba(6, 95, 70, 0.06)' }}>
                     <div className="flex items-center gap-4">
                         <MobileNav items={navigation} />
                         <span className="text-xs font-bold text-slate-400 tracking-widest uppercase hidden sm:block">
@@ -59,8 +59,8 @@ export default async function AdminLayout({
                         </span>
                     </div>
                     <div className="flex items-center gap-6">
-                        <div className="flex items-center gap-2 text-sm font-medium text-slate-600 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100">
-                            <Calendar className="h-4 w-4 text-primary" />
+                        <div className="flex items-center gap-2 text-sm font-medium text-slate-600 px-4 py-2 rounded-full border" style={{ backgroundColor: 'rgba(6, 95, 70, 0.04)', borderColor: 'rgba(6, 95, 70, 0.08)' }}>
+                            <Calendar className="h-4 w-4" style={{ color: 'var(--color-school-green)' }} />
                             {new Date().toLocaleDateString(locale === 'bn' ? 'bn-BD' : 'en-GB', {
                                 day: 'numeric',
                                 month: 'short',
